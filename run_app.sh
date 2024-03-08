@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+XSDB=/opt/Xilinx/Vivado/2018.3/bin/xsdb
+
+HW_PLATFORM_PATH=sample_project.sdk/system_hw_platform_0
+
+MEM_FILE=image.mfs
+
+ELF=sample_project.sdk/sample_project/Debug/sample_project.elf
+
+BITSTREAM=template_top.bit
+
+$XSDB configure.tcl 1 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 2 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 3 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 6 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 7 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 8 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 9 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 10 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 11 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 12 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 13 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 14 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 15 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 16 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE
+$XSDB configure.tcl 17 $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE

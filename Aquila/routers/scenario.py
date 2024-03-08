@@ -1,13 +1,14 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 import subprocess
+from subprocess import PIPE
 
-baseUrl = "./platform"
+baseUrl = "."
 
 router = APIRouter(tags=["Scenario"])
 
 
 @router.post("/upload_scenario")
-def upload_scenario(
+async def upload_scenario(
     # system_type,
     nodes,
     compute_file: UploadFile = File(...),
@@ -52,28 +53,30 @@ def upload_scenario(
         f.close()
     
     # run make_all
-    make_command = ["make", "all", "-C", baseUrl]
-    result = subprocess.run(make_command, capture_output=True, text=True)
+    make_command = ["make", "all"]
+    # make_command = ["make", "all", "-C", baseUrl]
+    make_result = subprocess.run(make_command, stdout=PIPE, stderr=PIPE)
         
-    make_stdout = result.stdout
-    make_stderr = result.stderr
     print("##############################################################")
-    print(make_stdout)
-    print(make_stderr)
+    print(make_result.stdout)
+    print(make_result.stderr)
     print("##############################################################")
 
+    # if make_result.stderr:
+        # raise HTTPException(status_code=400, detail="Success")
+    
     shell_command = [f"{baseUrl}/run_app.sh"]
+    shell_result = subprocess.run(shell_command, stdout=PIPE, stderr=PIPE)
 
-    result = subprocess.run(shell_command, capture_output=True, text=True)
-        
-    shell_stdout = result.stdout
-    shell_stderr = result.stderr
     print("##############################################################")
-    print(shell_stdout)
-    print(shell_stderr)
+    print(shell_result.stdout)
+    print(shell_result.stderr)
     print("##############################################################")
 
-    if not make_stderr and not shell_stderr:
-        raise HTTPException(status_code=400, detail="Success")
+    # if shell_result.stderr:
+        # raise HTTPException(status_code=400, detail="Success")
+
+    if not shell_result.stderr and not make_result.stderr:
+        raise HTTPException(status_code=200, detail="Success")
 
         

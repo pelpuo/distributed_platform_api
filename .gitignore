@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 platform
+
+sample_project.sdk
