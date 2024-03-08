@@ -50,6 +50,8 @@ async def upload_scenario(
             if(i+1 not in [4,5]):
                 f.write(f"$XSDB configure.tcl {i+1} $HW_PLATFORM_PATH $ELF $BITSTREAM $MEM_FILE\n")
 
+        f.write("echo SUCCESS\n\n")
+
         f.close()
     
     # run make_all
@@ -57,26 +59,23 @@ async def upload_scenario(
     # make_command = ["make", "all", "-C", baseUrl]
     make_result = subprocess.run(make_command, stdout=PIPE, stderr=PIPE)
         
-    print("##############################################################")
-    print(make_result.stdout)
-    print(make_result.stderr)
-    print("##############################################################")
-
-    # if make_result.stderr:
-        # raise HTTPException(status_code=400, detail="Success")
+    # print("##############################################################")
+    # print(make_result.stdout)
+    # print("##############################################################")
+    if str(make_result.stdout)[-10:] != "SUCCESS\\n'":
+        raise HTTPException(status_code=400, detail="Failed to upload to cluster")
     
     shell_command = [f"{baseUrl}/run_app.sh"]
     shell_result = subprocess.run(shell_command, stdout=PIPE, stderr=PIPE)
 
-    print("##############################################################")
-    print(shell_result.stdout)
-    print(shell_result.stderr)
-    print("##############################################################")
+    # print("##############################################################")
+    # print(shell_result.stdout)
+    # print("##############################################################")
 
-    # if shell_result.stderr:
-        # raise HTTPException(status_code=400, detail="Success")
+    if str(shell_result.stdout)[-10:] != "SUCCESS\\n'":
+        raise HTTPException(status_code=400, detail="Failed to upload to cluster")
 
-    if not shell_result.stderr and not make_result.stderr:
-        raise HTTPException(status_code=200, detail="Success")
+    # if not shell_result.stderr and not make_result.stderr:
+    raise HTTPException(status_code=200, detail="Success")
 
         

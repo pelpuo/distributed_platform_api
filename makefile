@@ -4,6 +4,8 @@ all:
 	(cd sample_project.sdk/sample_project_bsp && make all)
 	(cd sample_project.sdk/sample_project/Debug && make all)
 
+	echo SUCCESS
+
 clean:
 	$(eval USER_SRC := $(shell ls src | tr '\n' ' '))
 	rm -f image.mfs
